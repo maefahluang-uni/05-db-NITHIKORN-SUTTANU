@@ -27,29 +27,45 @@ public class UserController {
     public ResponseEntity<String> registerUser(@RequestBody User user) {
 
         //TODO: check if user with the username exists
+        if (repo.existsById(user.getId())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
        
         //TODO: save the user
-
+        repo.save(user);
         //TODO: remove below and return proper status
-        return new ResponseEntity<>( HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<String>("Added successfully", HttpStatus.CREATED);
+    }
+
+    @GetMapping("/users/{username}")
+    public ResponseEntity<User> getUser(@PathVariable String username) {
+        User user = repo.findByUsername(username);
+        if (user != null) {
+            return new ResponseEntity<User>(user, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> list() {
         
         //TODO: remove below and return proper result
-        return new ResponseEntity<>( HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<User>>(repo.findAll() , HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         
         //TODO: check if user with the id exists
-       
+        if (repo.existsById(id)) {
+            repo.deleteById(id);
+            return new ResponseEntity<String>("Deleted successfully", HttpStatus.OK);
+        }
         //TODO: delete the user
     
         //TODO: remove below and return proper status
-        return new ResponseEntity<>( HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<String>("Not found", HttpStatus.NOT_FOUND);
     }
 
 

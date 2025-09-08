@@ -15,7 +15,7 @@ In UserRepository, declare the following methods that help to find all user and 
 - `data.sql` contains insert statements for dummy users. Find where this file is and explain what it is used for? 
 
 ```
-Your answer
+It is used to insert a user as a row in a database table. In this case, There are 10 users with different id.
 ```
 
 ## User Reservice - Complete the code
